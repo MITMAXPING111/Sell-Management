@@ -22,9 +22,9 @@ public class GlobalException {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<RestResponse<Object>> handleAllException(Exception ex) {
         RestResponse<Object> res = new RestResponse<Object>();
-        res.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        res.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         res.setMessage(ex.getMessage());
-        res.setError("Internal Server Error");
+        res.setMessageError("Internal Server Error");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(res);
     }
 
@@ -35,9 +35,9 @@ public class GlobalException {
     })
     public ResponseEntity<RestResponse<Object>> handleIdException(Exception ex) {
         RestResponse<Object> res = new RestResponse<Object>();
-        res.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        res.setStatus(HttpStatus.BAD_REQUEST.value());
         res.setMessage(ex.getMessage());
-        res.setError("Exception occurs...");
+        res.setMessageError("Exception occurs...");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
     }
 
@@ -46,9 +46,9 @@ public class GlobalException {
     })
     public ResponseEntity<RestResponse<Object>> handleNotFoundException(Exception ex) {
         RestResponse<Object> res = new RestResponse<Object>();
-        res.setStatusCode(HttpStatus.NOT_FOUND.value());
+        res.setStatus(HttpStatus.NOT_FOUND.value());
         res.setMessage(ex.getMessage());
-        res.setError("404 Not Found. URL may not exist...");
+        res.setMessageError("404 Not Found. URL may not exist...");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
     }
 
@@ -58,11 +58,11 @@ public class GlobalException {
         final List<FieldError> fieldErrors = result.getFieldErrors();
 
         RestResponse<Object> res = new RestResponse<Object>();
-        res.setStatusCode(HttpStatus.BAD_REQUEST.value());
-        res.setError(ex.getBody().getDetail());
+        res.setStatus(HttpStatus.BAD_REQUEST.value());
+        res.setMessageError(ex.getBody().getDetail());
 
         List<String> errors = fieldErrors.stream().map(f -> f.getDefaultMessage()).collect(Collectors.toList());
-        res.setMessage(errors.size() > 1 ? errors : errors.get(0));
+        res.setMessageError(errors.size() > 1 ? errors : errors.get(0));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
     }

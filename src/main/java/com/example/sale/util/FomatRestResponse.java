@@ -31,7 +31,7 @@ public class FomatRestResponse implements ResponseBodyAdvice<Object> {
         int status = servletResponse.getStatus();
 
         RestResponse<Object> res = new RestResponse<Object>();
-        res.setStatusCode(status);
+        res.setStatus(status);
         if (body instanceof String) {
             return body;
         }
